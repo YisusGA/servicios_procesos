@@ -1,0 +1,12 @@
+
+Haciendo ping a google.com [64.233.167.101] con 32 bytes de datos:
+Respuesta desde 64.233.167.101: bytes=32 tiempo=91ms TTL=104
+Respuesta desde 64.233.167.101: bytes=32 tiempo=119ms TTL=104
+Respuesta desde 64.233.167.101: bytes=32 tiempo=108ms TTL=104
+Respuesta desde 64.233.167.101: bytes=32 tiempo=123ms TTL=104
+
+Estad¡sticas de ping para 64.233.167.101:
+    Paquetes: enviados = 4, recibidos = 4, perdidos = 0
+    (0% perdidos),
+Tiempos aproximados de ida y vuelta en milisegundos:
+    M¡nimo = 91ms, M ximo = 123ms, Media = 110ms
