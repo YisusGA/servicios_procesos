@@ -32,6 +32,8 @@ public class ProcessCom {
                         for (String s : br.readAllLines()) {
                             System.out.println(s);
                         }
+                        is.close();
+                        br.close();
                         // Hacemos lo mismo con las salidas de errores que haya podido generar el hijo
                         // Hay que tener en cuenta que, cada vez que se corre un proceso, el proceso tiene 2 salidas de
                         // datos: la salida de datos estándar, y la salida de datos de errores. Y por eso, ambas se deben
@@ -42,6 +44,8 @@ public class ProcessCom {
                         for (String s : bre.readAllLines()) {
                             System.out.println(s);
                         }
+                        ise.close();
+                        bre.close();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }

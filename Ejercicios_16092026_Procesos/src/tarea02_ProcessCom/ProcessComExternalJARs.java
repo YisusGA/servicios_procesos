@@ -27,13 +27,16 @@ public class ProcessComExternalJARs {
                         for (String s : br.readAllLines()) {
                             System.out.println(s);
                         }
-
+                        is.close();
+                        br.close();
                         InputStream ise = p.getErrorStream();
                         BufferedReader bre = new BufferedReader(new InputStreamReader(ise));
                         System.out.println("Errores que ha generado el hijo");
                         for (String s : bre.readAllLines()) {
                             System.out.println(s);
                         }
+                        ise.close();
+                        bre.close();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
