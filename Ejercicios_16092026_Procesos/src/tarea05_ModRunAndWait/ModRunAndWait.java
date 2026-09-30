@@ -9,11 +9,34 @@ import java.util.List;
 
 public class ModRunAndWait {
     static void main() {
-        ProcessBuilder[] pbs = new ProcessBuilder[] {
-                new ProcessBuilder("java", "-cp", ".\\out\\production\\Ejercicios_16092026_Procesos", "tarea04_Sumador.Sumador", "3", "6", "salidaSumador"),
-                new ProcessBuilder("java", "-cp", ".\\out\\production\\Ejercicios_16092026_Procesos", "tarea04_Sumador.Sumador", "4", "7", "salidaSumador"),
-                new ProcessBuilder("java", "-cp", ".\\out\\production\\Ejercicios_16092026_Procesos", "tarea04_Sumador.Sumador", "5", "8", "salidaSumador")
-        };
+
+        int num1 = 1; // Esto se le pediría al usuario o se leería de algún sitio
+        int num2 = 400; // Esto se le pediría al usuario o se leería de algún sitio
+        int divisiones = 3; // Esto se le pediría al usuario o se leería de algún sitio
+        int paso = (num2 - num1) / 3; // Calculamos el paso para partir en cachos
+
+        // El número de inicio del intervalo, que comienza siendo el num1 que pasó el usuario. Se irá actualizando
+        // este valor en cada iteración del bucle donde se use
+        int numInicio = num1;
+        // El número de final del intervalo, que comienza siendo el num1 que pasó el usuario + paso. Se irá actualizando
+        // este valor en cada iteración del bucle donde se use
+        int numFinal = num1 + paso;
+
+
+        List<ProcessBuilder> pbs = new ArrayList<>();
+
+        for (int i = 1; i <= divisiones; i++) {
+              // Descomentar esto para ver los valores del intervalo que usa para crear el ProcessBuilder
+            System.out.println("Valores del intervalo para crear ProcessBuilder");
+            System.out.println(numInicio);
+            System.out.println(numFinal);
+            System.out.println("Creo el ProcessBuilder con esos valores");
+            pbs.add(new ProcessBuilder("java", "-cp", ".\\out\\production\\Ejercicios_16092026_Procesos", "tarea04_Sumador.Sumador", "" + numInicio, "" + numFinal, "salidaSumador"));
+
+            // Se actualizan los valores del intervalo para el siguiente bucle, donde se creará el siguiente ProcessBuilder
+            numInicio = num1 + paso * i + 1;
+            numFinal = num1 + paso * (i + 1);
+        }
 
         List<List<String>> argsList = new ArrayList<>();
         for (ProcessBuilder pb : pbs) {
@@ -25,7 +48,7 @@ public class ModRunAndWait {
         try {
             for (int i = 0; i < 3; i++) {
                 List<String> currentArgs = argsList.get(i);
-                ProcessBuilder currentPb = pbs[i];
+                ProcessBuilder currentPb = pbs.get(i);
                 System.out.println("Comando lanzado para el proceso " + (i + 1) + ": ");
                 currentArgs.forEach(x -> System.out.print(x + " "));
                 System.out.println();
