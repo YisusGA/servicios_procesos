@@ -31,3 +31,10 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+# text files
+*.txt
+*.csv
+*.dat
+datos/
+doc/
