@@ -13,6 +13,9 @@ public class ProcessComExternalJARs {
                 Introduce 2 para fichero
                 """);
         ProcessBuilder pb = new ProcessBuilder(args);
+        // Redirigimos el stream de errores del hijo a la salida estándar, para que si el hijo genera
+        // errores, el padre pueda leerlos desde la salida estándar del hijo
+        pb.redirectErrorStream(true);
         int choice;
         do {
             choice = TecladoOK.leerEntero();
@@ -20,24 +23,26 @@ public class ProcessComExternalJARs {
                 case 1 -> {
                     try {
                         Process p = pb.start();
-                        // Conseguimos el InputStream, que es la semilla. Este InputStream
+                        // Conseguimos el InputStream, que es la semilla. Este InputStream es un flujo de bits que le
+                        // pasa al proceso padre las salidas que ha generado el hijo (el padre recibe como Input las
+                        // salidas del hijo)
                         InputStream is = p.getInputStream();
                         BufferedReader br = new BufferedReader(new InputStreamReader(is));
-                        System.out.println("Cosas que ha hecho el hijo");
-                        for (String s : br.readAllLines()) {
+                        System.out.println("Cosas o errores que ha generado el hijo");
+                        // Mejor hacer esto que un br.readAllLines(), porque si el comando lanzado no termina nunca,
+                        // br.readAllLines() se queda esperando indefinidamente y nunca avanza el código hasta el p.waitFor().
+                        // Además, si el comando escribe muchas líneas, se puede desbordar el buffer. Y además, no se ve la salida
+                        // en tiempo real, pues hay que esperar a que termine de mandar líneas
+                        String s;
+                        while ((s = br.readLine()) != null) {
                             System.out.println(s);
                         }
                         is.close();
                         br.close();
-                        InputStream ise = p.getErrorStream();
-                        BufferedReader bre = new BufferedReader(new InputStreamReader(ise));
-                        System.out.println("Errores que ha generado el hijo");
-                        for (String s : bre.readAllLines()) {
-                            System.out.println(s);
-                        }
-                        ise.close();
-                        bre.close();
+                        p.waitFor();
                     } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                 }

@@ -13,6 +13,9 @@ public class ProcessCom {
                 Introduce 2 para fichero
                 """);
         ProcessBuilder pb = new ProcessBuilder(args);
+        // Redirigimos el stream de errores del hijo a la salida estándar, para que si el hijo genera
+        // errores, el padre pueda leerlos desde la salida estándar del hijo
+        pb.redirectErrorStream(true);
         int choice;
         do {
             choice = scan.nextInt();
@@ -26,27 +29,21 @@ public class ProcessCom {
                         InputStream is = p.getInputStream();
                         // Codificamos a caracteres ese streams de bits mediante un BufferedReader
                         BufferedReader br = new BufferedReader(new InputStreamReader(is));
-                        System.out.println("Cosas que ha hecho el hijo");
-                        // Leemos todas las líneas con el método readAllLines() de BufferedReader. Esto genera una
-                        //  List<String>, que podemos recorrer con un for-each
-                        for (String s : br.readAllLines()) {
+                        System.out.println("Cosas o errores que ha generado el hijo");
+                        // Mejor hacer esto que un br.readAllLines(), porque si el comando lanzado no termina nunca,
+                        // br.readAllLines() se queda esperando indefinidamente y nunca avanza el código hasta el p.waitFor().
+                        // Además, si el comando escribe muchas líneas, se puede desbordar el buffer. Y además, no se ve la salida
+                        // en tiempo real, pues hay que esperar a que termine de mandar líneas
+                        String s;
+                        while ((s = br.readLine()) != null) {
                             System.out.println(s);
                         }
                         is.close();
                         br.close();
-                        // Hacemos lo mismo con las salidas de errores que haya podido generar el hijo
-                        // Hay que tener en cuenta que, cada vez que se corre un proceso, el proceso tiene 2 salidas de
-                        // datos: la salida de datos estándar, y la salida de datos de errores. Y por eso, ambas se deben
-                        // sacar mediante 2 streams diferentes
-                        InputStream ise = p.getErrorStream();
-                        BufferedReader bre = new BufferedReader(new InputStreamReader(ise));
-                        System.out.println("Errores que ha generado el hijo");
-                        for (String s : bre.readAllLines()) {
-                            System.out.println(s);
-                        }
-                        ise.close();
-                        bre.close();
+                        p.waitFor();
                     } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                 }

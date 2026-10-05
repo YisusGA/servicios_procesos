@@ -17,18 +17,8 @@ public class RunAndWait {
                 File f = new File(args.getLast() + ".txt");
                 pb.redirectOutput(f);
                 Process p = pb.start();
-                // Esto parece que no hace nada porque se redirecciona la salida al fichero
-//                InputStream is = p.getInputStream();
-//                BufferedReader br = new BufferedReader(new InputStreamReader(is));
-//                List<String> lineas = br.readAllLines();
-                p.waitFor();
-
-            System.out.println("Salida devuelta:");
-//            for (String s : lineas) {
-//                System.out.println(s);
-//            }
-//                br.close();
-//                is.close();
+            System.out.println("Proceso terminado con código: " + p.waitFor());
+            System.out.println("Resultado escrito en fichero: " + f.getName());
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
