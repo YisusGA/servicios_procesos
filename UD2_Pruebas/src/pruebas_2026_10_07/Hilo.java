@@ -5,8 +5,9 @@ public class Hilo {
     static void main(String[] args) {
 
         // Con esta forma, creo varias instancias de la clase MiHilo (que hereda de Thread). Y luego
-        // lanzo un hilo de cada una. Los hilos no van a compartir atributos entre sí,
-        // pues cada instancia tiene las suyas
+        // lanzo un hilo de cada una. Los hilos no van a compartir los valores de sus atributos entre sí,
+        // pues cada instancia tiene sus propios valores para sus propiedades, que se asignan al instanciarlas con su
+        // constructor
 //        MiHilo h1 = new MiHilo(1);
 //        MiHilo h2 = new MiHilo(2);
 //        MiHilo h3 = new MiHilo(3);
@@ -18,9 +19,9 @@ public class Hilo {
         // No se usa h1.run() porque eso lanzaría el método run() de MiHilo, en lugar de lanzar el hilo en sí
 
 
-        // Con esta forma, creo sólo una instancia de la clase MiHiloRunnable...
+        // Con esta forma, creo una sola instancia de la clase MiHiloRunnable...
         MiHiloRunnable runnable = new MiHiloRunnable();
-        //...y luego creo varios hilos que usan esa instancia.
+        //...y luego creo varios hilos que usan esa instancia en su constructor.
         // Todos los atributos de la instancia de la clase MiHiloRunnable se compartirán entre todos los hilos
         Thread h1 = new Thread(runnable);
         Thread h2 = new Thread(runnable);
