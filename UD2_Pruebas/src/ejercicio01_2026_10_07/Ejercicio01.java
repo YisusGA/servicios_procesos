@@ -1,6 +1,6 @@
 package ejercicio01_2026_10_07;
 
-import teclado.TecladoOK;
+import teclado.Teclado;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,15 +11,19 @@ public class Ejercicio01 {
         // List donde vamos a ir almacenando los estados del hilo1
         List<Thread.State> estadosHilo1 = new ArrayList<>();
         System.out.println("¿Cuántos corredores(hilos) quieres?");
-        int numHilos = TecladoOK.leerEntero();
+        int numHilos = Teclado.leerEntero();
 
-        Corredor corredor = new Corredor();
-        Thread[] hilos = new Thread[numHilos];
 
-        for (int i = 0; i < hilos.length; i++) {
-            hilos[i] = new Thread(corredor);
+        Corredor[] corredores = new Corredor[numHilos];
+
+        for (int i = 0; i < corredores.length; i++) {
+            corredores[i] = new Corredor("Corredor " + (i+1));
         }
 
+        Thread[] hilos = new Thread[numHilos];
+        for (int i = 0; i < corredores.length; i++) {
+            hilos[i] = new Thread(corredores[i]);
+        }
         // Almacenamos el estado del hilo1 antes de lanzarlo
         estadosHilo1.add(hilos[0].getState());
 
@@ -55,6 +59,7 @@ public class Ejercicio01 {
         System.out.println("Todos los corredores han llegado a la meta");
 
         // Mostramos los estados por los que ha pasado el hilo1
+        System.out.println("El hilo1 ha pasado por los siguientes estados:");
         for (Thread.State st : estadosHilo1) {
             System.out.println(st);
         }
@@ -63,12 +68,17 @@ public class Ejercicio01 {
 }
 
 class Corredor implements Runnable {
+    String name;
     Random random = new Random();
+
+    public Corredor(String name) {
+        this.name = name;
+    }
 
     @Override
     public void run() {
         for (int i = 1; i <= 10; i++) {
-            System.out.println("El corredor avanza al paso " + i);
+            System.out.printf("El %s avanza al paso %d\n", name, i);
             try {
                 Thread.sleep(random.nextInt(100, 400));
             } catch (InterruptedException e) {
