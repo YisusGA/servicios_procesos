@@ -3,18 +3,20 @@ package ejercicio04_2026_10_25;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Contar {
     static void main() {
         int numeroHilos = 2;
-        Cuenta ct = new Cuenta();
+        Cuenta cuenta = new Cuenta();
         List<Thread> hilos = new ArrayList<>();
 
+       long tiempoInicial = System.nanoTime();
         for (int i = 0; i < numeroHilos; i++) {
-            hilos.add(new Thread(new Contador(ct)));
+            hilos.add(new Thread(cuenta));
             hilos.get(i).start();
         }
 
-        for (Thread t : hilos) {
+        for (Thread t :hilos) {
             try {
                 t.join();
             } catch (InterruptedException e) {
@@ -22,12 +24,14 @@ public class Contar {
             }
         }
 
-        System.out.println("Valor final c1: " + ct.getCuenta1());
-        System.out.println("Valor final c2: " + ct.getCuenta2());
+        System.out.printf("Tiempo transcurrido: %d ms\n", (System.nanoTime() - tiempoInicial) / 1000000);
+
+        System.out.println("Valor final c1: " + cuenta.getCuenta1());
+        System.out.println("Valor final c2: " + cuenta.getCuenta2());
     }
 }
 
-class Cuenta {
+class Cuenta implements Runnable {
     int cuenta1 = 0;
     int cuenta2 = 0;
 
@@ -39,30 +43,19 @@ class Cuenta {
         return cuenta2;
     }
 
-    public void incrementa1() {
-        cuenta1++;
-    }
-
-    public void incrementa2() {
-        cuenta2++;
-    }
-}
-
-class Contador implements Runnable {
-
-    Cuenta cuenta;
-
-    public Contador(Cuenta cuenta) {
-        this.cuenta = cuenta;
-    }
+    public void incrementa1() {cuenta1++;}
+    public void incrementa2(){cuenta2++;}
 
     @Override
     public void run() {
         for (int i = 0; i < 100000; i++) {
-            synchronized (cuenta) {
-                cuenta.incrementa1();
-                cuenta.incrementa2();
+            synchronized (this) {
+                incrementa1();
+            }
+            synchronized (this) {
+                incrementa2();
             }
         }
     }
 }
+
