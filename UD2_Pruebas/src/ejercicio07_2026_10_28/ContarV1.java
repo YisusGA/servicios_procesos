@@ -6,12 +6,12 @@ import java.util.List;
 public class ContarV1 {
     private static int numHilos = 5;
     static void main() {
-        ContadorV2 contadorV2 = new ContadorV2();
+        ContadorV1 contadorV1 = new ContadorV1();
         List<Thread> hilos = new ArrayList<>();
 
         long tiempoInicial = System.nanoTime();
         for(int i = 0; i < numHilos; i++) {
-            Thread t = new Thread(contadorV2);
+            Thread t = new Thread(contadorV1);
             hilos.add(t);
             t.start();
         }
