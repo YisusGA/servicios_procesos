@@ -22,7 +22,7 @@ public class Main {
         Map<Worker, Boolean> workers = new ConcurrentHashMap<>();
 
         for (int i = 0; i < numeroWorkers; i++) {
-            Worker w = new Worker(semaforo, workers, i);
+            Worker w = new Worker(semaforo, workers);
             workers.put(w, true);
             w.start();
         }

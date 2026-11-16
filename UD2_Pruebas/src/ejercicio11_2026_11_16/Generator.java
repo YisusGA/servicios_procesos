@@ -40,8 +40,7 @@ public class Generator extends Thread {
                 });
             }
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new RuntimeException("El Generator no pudo adquirir el semáforo " + threadId() + e);
+            System.out.printf("Soy hilo Generator con ID %s. No hay semáforo libre, me espero\n", threadId());
         }
     }
 }
