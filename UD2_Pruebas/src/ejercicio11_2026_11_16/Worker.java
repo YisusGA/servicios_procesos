@@ -6,6 +6,7 @@ import java.util.concurrent.Semaphore;
 public class Worker extends Thread {
     private int numero;
     private Semaphore semaforo;
+    // El value del Boolean es false si no está disponible y true si lo está
     private Map<Worker, Boolean> workers;
     private int posicionEnMapa;
 
@@ -25,14 +26,13 @@ public class Worker extends Thread {
 
     @Override
     public void run() {
-        super.run();
         while (true) {
             try {
                 Thread.sleep(50000);
             } catch (InterruptedException e) {
-                System.out.printf("Soy %s. Mi variable vale: %d\n", getName(), numero);
+                System.out.printf("Soy %s. Mi variable vale: %d\n", threadId(), numero * 1000);
+                workers.replace(this, true);
                 semaforo.release();
-                throw new RuntimeException(e);
             }
         }
 
