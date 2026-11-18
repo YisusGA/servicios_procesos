@@ -32,9 +32,12 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-# text files
+### text files ###
 *.txt
 *.csv
 *.dat
 datos/
 doc/
+
+### custom folders ###
+temporal/
