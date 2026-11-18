@@ -33,12 +33,12 @@ public class Lavanderia {
             t.start();
         }
 
-        // Esperamos a que todos los hilos de Cliente finalicen, y el hilo principal finalizará cuando terminen todos
-        // los Cliente, pues los Tecnico, aunque se ejecuten de forma infinita, son daemon
         for (Thread t : tecnicos) {
             t.start();
         }
 
+        // Esperamos a que todos los hilos de Cliente finalicen, y el hilo principal finalizará cuando terminen todos
+        // los Cliente, pues los Tecnico, aunque se ejecuten de forma infinita, son daemon
         for (Thread t : clientes) {
             try {
                 t.join();
