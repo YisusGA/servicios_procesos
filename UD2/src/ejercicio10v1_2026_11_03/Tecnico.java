@@ -41,7 +41,7 @@ public class Tecnico extends Thread {
     public void run() {
         Lavadora lavadora;
         long tiempoInicioColapso = 0;
-        boolean estabaColapsado = false;
+        boolean lavanderiaEstabaColapsada = false;
         while (true) {
             try {
                 Thread.sleep(frecuenciaRevision);
@@ -59,9 +59,9 @@ public class Tecnico extends Thread {
             // cuando realmente no ha sido así
             synchronized (gestorLavadoras) {
                 if (gestorLavadoras.getNumeroLavadorasDisponibles() == 0) {
-                    if (!estabaColapsado) {
+                    if (!lavanderiaEstabaColapsada) {
                         // Es el primer momento en que detectamos el colapso, y pillamos el tiempo de inicio del colapso.
-                        estabaColapsado = true;
+                        lavanderiaEstabaColapsada = true;
                         tiempoInicioColapso = System.currentTimeMillis();
                     } else {
                         // Ya estaba colapsado antes, comprobamos cuánto tiempo lleva de forma continua
@@ -75,13 +75,13 @@ public class Tecnico extends Thread {
                                 gestorLavadoras.notifyAll();
                             }
                             // Reiniciamos el estado del colapso tras actuar
-                            estabaColapsado = false;
+                            lavanderiaEstabaColapsada = false;
                         }
                     }
                 } else {
                     // Si en alguna revisión encontramos al menos una lavadora libre,
                     // se rompe la continuidad y reseteamos el cronómetro de inmediato.
-                    estabaColapsado = false;
+                    lavanderiaEstabaColapsada = false;
                 }
             }
         }
