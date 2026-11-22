@@ -8,7 +8,7 @@ public class ExecPrograms {
     static void main(String[] args) {
         for (String arg : args) {
 
-            // Con esto de debajo, se abre la CMD y se fuerza a que cada proceso que lancemos desde ahí 4 segundos,
+            // Con esto de debajo, se abre la CMD y se fuerza a que cada proceso que lancemos desde ahí dure 4 segundos,
             // para que no se cierre rápido cuando termine. Esta parte de tiempo sólo funciona como argumento si se le
             // pasa a la cmd, pues es un comando de CMD de Windows
 
@@ -37,8 +37,8 @@ public class ExecPrograms {
 //                p.destroy(); // o p.destroyForcibly() si fuera necesario
                 // Como Windows crea un proceso hijo a partir del principal para abrir la app, tenemos que obtener sus descendientes y luego para cada uno, matarlos.
                 // Aquí estamos usando la expresión lambda abreviada que vimos con Raquel en Acceso a datos
-//                p.descendants().forEach(ProcessHandle::destroy);
-//                p.destroy();
+                p.descendants().forEach(ProcessHandle::destroy);
+                p.destroy();
                 // Por algún motivo, no funciona el cierre de proceso para la calculadora. Parece ser que Windows abre otro proceso desligado tras lanzar el calc.exe
 
                 System.out.println("¿El proceso está vivo después del destroy? " + (p.isAlive() ? "Sí" : "No"));
