@@ -11,7 +11,6 @@ public class Ejercicio03_ContadorLineas {
         {
             try (BufferedReader br = new BufferedReader(new FileReader(file))) {
                 int contadorLineas = 0;
-                ;
                 String line;
                 while ((line = br.readLine()) != null) {
                     System.out.println("Linea " + ++contadorLineas + " " + line);
