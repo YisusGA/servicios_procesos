@@ -26,17 +26,19 @@ public class SumManager {
                 // Se pide por consola que se introduzca un número en formato de cadena
                 System.out.println("Introduce un número entero");
                 num = scan.nextLine();
-                // Con el BufferedWriter, mandamos esa cadena al proceso hiji
-                bw.write(num);
-                // Y mandamos un salto de línea
-                bw.newLine();
-                // Esto es necesario para que se fuerce el envío de lo que se haya almacenado en el buffer al proceso
-                // hijo. Si no se pone, no funciona
-                bw.flush();
-                // Y con el BufferedReader, se lee la línea que el hijo manda mediante su salida estándar
-                System.out.println("Salida del proceso hijo impresa desde el proceso padre: " + br.readLine());
-                // Y se continúan mandando líneas al hijo y leyéndolas mientras el número introducido por consola no sea
-                // negativo
+                if (Integer.parseInt(num) >= 0) {
+                    // Con el BufferedWriter, mandamos esa cadena al proceso hiji
+                    bw.write(num);
+                    // Y mandamos un salto de línea
+                    bw.newLine();
+                    // Esto es necesario para que se fuerce el envío de lo que se haya almacenado en el buffer al proceso
+                    // hijo. Si no se pone, no funciona
+                    bw.flush();
+                    // Y con el BufferedReader, se lee la línea que el hijo manda mediante su salida estándar
+                    System.out.println("Salida del proceso hijo impresa desde el proceso padre: " + br.readLine());
+                    // Y se continúan mandando líneas al hijo y leyéndolas mientras el número introducido por consola no sea
+                    // negativo
+                }
             } while (Integer.parseInt(num) >= 0);
             // Cuando se introduce un número negativo, se sale del bucle y se destruye el proceso
             System.out.println("Has introducido un número negativo, se acabó lo que se daba. Destruyo el proceso y san se acabó");

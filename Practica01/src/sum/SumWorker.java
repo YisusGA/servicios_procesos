@@ -13,10 +13,13 @@ public class SumWorker {
         while (true) {
             // Se parsean los datos que lee el Scanner de la entrada estándar
             int num = Integer.parseInt(scan.nextLine());
-            // Se le suma 1, se convierte a String y se manda mediante salida estándar al proceso padre que lo llame.
-            // Es super importante usar println y no print, pues en el proceso padre leemos una línea, y la forma que
-            // tenemos de mandar una línea es println, que manda la línea con un carácter de nueva línea '\n' al final
-            System.out.println((num + 1) + "");
+            if (num >= 0) {
+                // Se le suma 1, se convierte a String y se manda mediante salida estándar al proceso padre que lo llame.
+                // Es super importante usar println y no print, pues en el proceso padre leemos una línea, y la forma que
+                // tenemos de mandar una línea es println, que manda la línea con un carácter de nueva línea '\n' al final
+                System.out.println((num + 1) + "");
+                System.out.flush();
+            }
         }
     }
 }
