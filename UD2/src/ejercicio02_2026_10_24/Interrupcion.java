@@ -34,6 +34,9 @@ class Hilo extends Thread {
                 System.out.println("Soy el hilo hijo. Mi padre me ha interrumpido, me enfado y espero 2 segundos más");
                 Thread.sleep(2000);
             } catch (InterruptedException ex) {
+                // Cuando se pone esto, la excepción de que lo han interrumpido se captura y el hilo sigue su vida,
+                // limpiando su estado de interrupted (que puede ser BLOCKED, WAITING O TIMED_WAITING).
+                // Si queremos que siga interrumpido, habría que poner un Thread.currentThread().interrupt();
                 throw new RuntimeException(ex);
             }
         }

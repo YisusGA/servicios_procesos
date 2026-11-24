@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ModRunAndWait {
 
-    // Creamos una lista donde vamos a almacenar toods los ProcessBuilder que creemos
+    // Creamos una lista donde vamos a almacenar todos los ProcessBuilder que creemos
     private static final List<ProcessBuilder> pbs = new ArrayList<>();
     // Creamos una lista de los Process que vamos a lanzar, para luego poder recorrerlos con un for-each que haga
     // que el programa espere a que terminen todos antes de ejecutar el código que viene a continuación
@@ -105,6 +105,7 @@ public class ModRunAndWait {
             File f = new File(currentArgs.getLast() + i + ".txt");
             BufferedReader br = new BufferedReader(new FileReader(f));
             List<String> lineas = br.readAllLines();
+            br.close();
             for (String s : lineas) {
                 sumaTotal += Integer.parseInt(s);
             }

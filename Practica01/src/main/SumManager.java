@@ -3,6 +3,12 @@ package main;
 import java.io.*;
 import java.util.Scanner;
 
+
+/*
+Cuidado: Este ejercicio no se puede hacer con pb.inheritIO() tal y como está planteado el enunciado, porque no se puede leer desde System.in en SumManager ni escribir por p.getOutputStream():
+con inheritIO(), es SumWorker quien lee directamente de la consola (porque hereda System.in) y escribe directamente en ella (porque hereda System.out)
+ */
+
 public class SumManager {
     static void main() {
         ProcessBuilder pb = new ProcessBuilder("java", "-cp", ".\\out\\production\\Practica01", "sum.SumWorker");
